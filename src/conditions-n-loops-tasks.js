@@ -312,8 +312,52 @@ function getBalanceIndex(arr) {
  *          [10, 9,  8,  7]
  *        ]
  */
-function getSpiralMatrix(/* size */) {
-  throw new Error('Not implemented');
+function getSpiralMatrix(size) {
+  if (size <= 0) {
+    return [];
+  }
+
+  const matrix = [];
+  for (let i = 0; i < size; i += 1) {
+    matrix[i] = [];
+    for (let j = 0; j < size; j += 1) {
+      matrix[i][j] = 0;
+    }
+  }
+
+  let currentNumber = 1;
+  let rowStart = 0;
+  let rowEnd = size - 1;
+  let colStart = 0;
+  let colEnd = size - 1;
+
+  while (rowStart <= rowEnd && colStart <= colEnd) {
+    for (let i = colStart; i <= colEnd; i += 1) {
+      matrix[rowStart][i] = currentNumber;
+      currentNumber += 1;
+    }
+    rowStart += 1;
+
+    for (let i = rowStart; i <= rowEnd; i += 1) {
+      matrix[i][colEnd] = currentNumber;
+      currentNumber += 1;
+    }
+    colEnd -= 1;
+
+    for (let i = colEnd; i >= colStart; i -= 1) {
+      matrix[rowEnd][i] = currentNumber;
+      currentNumber += 1;
+    }
+    rowEnd -= 1;
+
+    for (let i = rowEnd; i >= rowStart; i -= 1) {
+      matrix[i][colStart] = currentNumber;
+      currentNumber += 1;
+    }
+    colStart += 1;
+  }
+
+  return matrix;
 }
 
 /**
@@ -331,8 +375,31 @@ function getSpiralMatrix(/* size */) {
  *    [7, 8, 9]         [9, 6, 3]
  *  ]                 ]
  */
-function rotateMatrix(/* matrix */) {
-  throw new Error('Not implemented');
+function rotateMatrix(matrix) {
+  if (!matrix || matrix.length === 0 || matrix[0].length === 0) {
+    return matrix;
+  }
+  const resultMatrix = matrix;
+  const rows = resultMatrix.length;
+  const cols = resultMatrix[0].length;
+
+  for (let i = 0; i < rows; i += 1) {
+    for (let j = i + 1; j < cols; j += 1) {
+      const temp = resultMatrix[i][j];
+      resultMatrix[i][j] = resultMatrix[j][i];
+      resultMatrix[j][i] = temp;
+    }
+  }
+
+  for (let i = 0; i < rows; i += 1) {
+    for (let j = 0, k = cols - 1; j < k; j += 1, k -= 1) {
+      const temp = resultMatrix[i][j];
+      resultMatrix[i][j] = resultMatrix[i][k];
+      resultMatrix[i][k] = temp;
+    }
+  }
+
+  return resultMatrix;
 }
 
 /**
